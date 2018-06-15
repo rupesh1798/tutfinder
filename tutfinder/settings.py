@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -151,12 +152,69 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_ALLOW_NONIMAGE_FILES = True
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#         # 'rest_framework.authentication.SessionAuthentication',
+#     ),
+# }
+
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    # 'DEFAULT_PARSER_CLASSES': (
+    #     'rest_framework.parsers.JSONParser',
+    # )
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        #'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.BasicAuthentication'
+
     ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        'rest_framework.permissions.AllowAny',
+        #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    )
 }
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+
+    'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+'''
+curl -X POST -d "username=cfe&password=learncode" http://127.0.0.1:8000/api/auth/token/
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNmZSIsInVzZXJfaWQiOjEsImVtYWlsIjoiIiwiZXhwIjoxNDYxOTY1ODI5fQ.OTX7CZFZqxhaUnU9Da13Ebh9FY_bHMeCF1ypr9hXjWw
+curl -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNmZSIsInVzZXJfaWQiOjEsImVtYWlsIjoiIiwiZXhwIjoxNDYxOTY1ODI5fQ.OTX7CZFZqxhaUnU9Da13Ebh9FY_bHMeCF1ypr9hXjWw
+" http://127.0.0.1:8000/api/comments/
+curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNmZSIsInVzZXJfaWQiOjEsImVtYWlsIjoiIiwiZXhwIjoxNDYxOTY2MTc4fQ._i5wEqJ_OO8wNiVVNAWNPGjGaO7OzChY0UzONgw06D0" -H "Content-Type: application/json" -d '{"content":"some reply to another try"}' 'http://127.0.0.1:8000/api/comments/create/?slug=new-title&type=post&parent_id=13'
+curl http://127.0.0.1:8000/api/comments/
+curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5MzkyMzUyOWNkNjM0ODlhOWU2MjY4MjM4MmU3MzNlYSIsInRva2VuX3R5cGUiOiJhY2Nlc3MiLCJleHAiOjE1MjkwOTMzMDcsInVzZXJfaWQiOjF9.WIImQM8XKS9klkiEOdFAtO_50vI5tbYNbg3ERFlgp6c" -H "Content-Type: application/json" -d '{"title":"javascript"}' 'http://127.0.0.1:8000/api/technology/create/'
+curl \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImp0aSI6IjI3ODk2NTU2MGRkODQ5YmVhNGQzNjE1ZmM1ZTI1NDg3IiwiZXhwIjoxNTI5MTc2Mjc1LCJ1c2VyX2lkIjoxfQ.ueOuBdUxvwQd5tEKw1uxfVaxOGWZqrGMIsEM1uPoGS8"}' \
+  http://localhost:5000/api/auth/token/refresh/
+'''

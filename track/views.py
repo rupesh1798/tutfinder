@@ -39,7 +39,7 @@ from .models import Track
 class TrackCreateAPIView(CreateAPIView):
     queryset = Track.objects.all()
     serializer_class = TrackCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
 class TrackListAPIView(ListAPIView):
     # queryset = Post.objects.all()
@@ -67,12 +67,14 @@ class TrackDetailAPIView(RetrieveAPIView):
 class TrackDeleteAPIView(DestroyAPIView):
     queryset = Track.objects.all()
     serializer_class = TrackDeleteSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
     # lookup_url_kwrg = 'slug'
 
 class TrackUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Track.objects.all()
     serializer_class = TrackCreateUpdateSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
     permission_classes = [IsAuthenticatedOrReadOnly]
     # lookup_url_kwrg = 'slug'

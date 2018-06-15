@@ -38,11 +38,12 @@ from .models import Technology
 class TechnologyCreateAPIView(CreateAPIView):
     queryset = Technology.objects.all()
     serializer_class = TechnologyCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
 class TechnologyListAPIView(ListAPIView):
     # queryset = Post.objects.all()
     serializer_class = TechnologyListSerializer
+    # permission_classes = [AllowAny]
     filter_backends = [SearchFilter, OrderingFilter] #ordering=title in url (-title gives opposite)
     search_fields = ['title', 'detail', 'user__first_name']
     # pagination_class = PostPageNumberPagination
@@ -62,18 +63,21 @@ class TechnologyListAPIView(ListAPIView):
 class TechnologyDetailAPIView(RetrieveAPIView):
     queryset = Technology.objects.all()
     serializer_class = TechnologyDetailSerializer
+    # permission_classes = [AllowAny]
     lookup_field = 'slug'
     # lookup_url_kwrg = 'slug'
 
 class TechnologyDeleteAPIView(DestroyAPIView):
     queryset = Technology.objects.all()
     serializer_class = TechnologyDeleteSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
     # lookup_url_kwrg = 'slug'
 
 class TechnologyUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Technology.objects.all()
     serializer_class = TechnologyCreateUpdateSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
     permission_classes = [IsAuthenticatedOrReadOnly]
     # lookup_url_kwrg = 'slug'

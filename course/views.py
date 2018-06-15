@@ -39,13 +39,14 @@ from .models import Course, SubmitCourse
 class CourseCreateAPIView(CreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     def perform_create(self, serializer):
         serializer.save(submitter=self.request.user)
 
 class CourseListAPIView(ListAPIView):
     # queryset = Post.objects.all()
     serializer_class = CourseListSerializer
+    # permission_classes = [AllowAny]
     filter_backends = [SearchFilter, OrderingFilter] #ordering=title in url (-title gives opposite)
     search_fields = ['title', 'content', 'user__first_name']
     # pagination_class = PostPageNumberPagination
@@ -65,6 +66,7 @@ class CourseListAPIView(ListAPIView):
 
 class CourseTechListAPIView(ListAPIView):
     serializer_class = CourseListSerializer
+    # permission_classes = [AllowAny]
     filter_backends = [SearchFilter, OrderingFilter]  # ordering=title in url (-title gives opposite)
     search_fields = ['title', 'content', 'user__first_name']
     # pagination_class = PostPageNumberPagination
@@ -75,20 +77,23 @@ class CourseTechListAPIView(ListAPIView):
 class CourseDetailAPIView(RetrieveAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseDetailSerializer
+    # permission_classes = [AllowAny]
     lookup_field = 'slug'
     # lookup_url_kwrg = 'slug'
 
 class CourseDeleteAPIView(DestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseDeleteSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
     # lookup_url_kwrg = 'slug'
 
 class CourseUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseCreateUpdateSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUser]
     # lookup_url_kwrg = 'slug'
 
 class SubmitCourseCreateAPIView(CreateAPIView):

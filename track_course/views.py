@@ -38,7 +38,7 @@ from .models import TrackCourse
 class TrackCourseCreateAPIView(CreateAPIView):
     queryset = TrackCourse.objects.all()
     serializer_class = TrackCourseCreateUpdateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     def perform_create(self, serializer):
         serializer.save(submitter=self.request.user)
 
@@ -78,12 +78,13 @@ class TrackCourseDetailAPIView(RetrieveAPIView):
 class TrackCourseDeleteAPIView(DestroyAPIView):
     queryset = TrackCourse.objects.all()
     serializer_class = TrackCourseDeleteSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
     # lookup_url_kwrg = 'slug'
 
 class TrackCourseUpdateAPIView(RetrieveUpdateAPIView):
     queryset = TrackCourse.objects.all()
     serializer_class = TrackCourseCreateUpdateSerializer
+    permission_classes = [IsAdminUser]
     lookup_field = 'slug'
-    permission_classes = [IsAuthenticatedOrReadOnly]
     # lookup_url_kwrg = 'slug'
