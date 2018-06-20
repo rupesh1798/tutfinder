@@ -9,17 +9,7 @@ from rest_framework_simplejwt.views import (
 from django.conf import settings
 from django.conf.urls.static import static
 
-from rest_framework import views, serializers, status
-from rest_framework.response import Response
-class MessageSerializer(serializers.Serializer):
-    message = serializers.CharField()
 
-class EchoView(views.APIView):
-    def post(self, request, *args, **kwargs):
-        serializer = MessageSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED)
 
 urlpatterns = [
     url(r'^$', generic.RedirectView.as_view(
@@ -35,7 +25,7 @@ urlpatterns = [
     url(r'^api/', include("course.urls", namespace='course')),
     url(r'^api/track/', include("track.urls", namespace='track')),
     url(r'^api/', include("track_course.urls", namespace='track_course')),
-#    url(r'', include('user.urls')),
+    url(r'^api/users/', include("profile.urls", namespace='users-api')),
+    #    url(r'', include('user.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-    url(r'^api/echo/$', EchoView.as_view())
 ]

@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'technology',
     'track',
     'track_course',
-    'user',
+    'profile',
     'corsheaders',
     'ckeditor',
     'ckeditor_uploader',
