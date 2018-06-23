@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.contrib.auth import get_user_model
-
+from profile.models import Profile
 from rest_framework.serializers import (
     CharField,
     EmailField,
@@ -113,3 +113,31 @@ class UserLoginSerializer(ModelSerializer):
         data["token"] = "some random token"
 
         return data
+
+
+class ProfileSerializer(ModelSerializer):
+    user = SerializerMethodField()
+    image = SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = [
+            'user',
+            'bio',
+            'birth_date',
+            'image',
+            'fb_url',
+            'twitter_url',
+            'linkedin_url',
+            'website_url',
+            'created_at',
+        ]
+        read_only_fields = ('user','created_at')
+
+    def get_user(self, obj):
+        return str(obj.user.username)
+
+    def get_image(self, obj):
+        if obj.image:
+            return obj.image.url
+        return 'https://static.productionready.io/images/smiley-cyrus.jpg'

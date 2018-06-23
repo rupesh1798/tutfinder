@@ -1,7 +1,6 @@
 from rest_framework.serializers import ModelSerializer, HyperlinkedIdentityField, SerializerMethodField
 from .models import Course, SubmitCourse
 #from review.models import Review
-#from user.models import Profile
 # from django.contrib.auth.models import User
 
 
