@@ -37,6 +37,7 @@ from .permissions import IsOwner
 from .serializers import (
     UserLoginSerializer,
     UserCreateSerializer,
+    UserDetailSerializer,
     ProfileSerializer,
     )
 
@@ -60,6 +61,20 @@ class UserLoginAPIView(APIView):
             new_data = serializer.data
             return Response(new_data, status=HTTP_200_OK)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class UserDetailAPIView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserDetailSerializer
+
+    def retrieve(self, request, pk=None):
+        """
+        If provided 'pk' is "me" then return the current user.
+        """
+        if request.user:
+            return Response(UserDetailSerializer(request.user).data)
+        return super(UserDetailAPIView, self).retrieve(request, pk)
+
 
 class ProfileDetailAPIView(RetrieveAPIView):
     queryset = Profile.objects.all()

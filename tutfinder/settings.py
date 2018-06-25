@@ -217,4 +217,5 @@ curl \
   -H "Content-Type: application/json" \
   -d '{"refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImp0aSI6IjI3ODk2NTU2MGRkODQ5YmVhNGQzNjE1ZmM1ZTI1NDg3IiwiZXhwIjoxNTI5MTc2Mjc1LCJ1c2VyX2lkIjoxfQ.ueOuBdUxvwQd5tEKw1uxfVaxOGWZqrGMIsEM1uPoGS8"}' \
   http://localhost:5000/api/auth/token/refresh/
+curl -X GET -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MywiZXhwIjoxNTI5OTUyMzA2LCJqdGkiOiJhYWEyOTYyNjE1NTE0Y2NmYTg1NGI3Y2E1NTU0NzE1YSJ9.PaHUhtSgHbLqBTt08oQBd2eMczTjYwRKRjparTDsjHc" -H "Content-Type: application/json" -d '{}' 'http://127.0.0.1:8000/api/users/detail/'
 '''

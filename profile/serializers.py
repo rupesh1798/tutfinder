@@ -116,7 +116,7 @@ class UserLoginSerializer(ModelSerializer):
 
 
 class ProfileSerializer(ModelSerializer):
-    user = SerializerMethodField()
+    user = UserDetailSerializer(read_only=True)
     image = SerializerMethodField()
 
     class Meta:
@@ -133,9 +133,6 @@ class ProfileSerializer(ModelSerializer):
             'created_at',
         ]
         read_only_fields = ('user','created_at')
-
-    def get_user(self, obj):
-        return str(obj.user.username)
 
     def get_image(self, obj):
         if obj.image:
