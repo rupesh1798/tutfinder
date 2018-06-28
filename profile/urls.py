@@ -15,6 +15,6 @@ urlpatterns = [
     url(r'^login/$', UserLoginAPIView.as_view(), name='login'),
     url(r'^detail/$', UserDetailAPIView.as_view(), name='detail'),
     url(r'^profile/(?P<username>[\w-]+)/$', ProfileDetailAPIView.as_view(), name='profile_detail'),
-    url(r'^profile/(?P<username>[\w-]+)/edit/$', ProfileUpdateAPIView.as_view(), name='profile_update'),
+    url(r'^profile/(?P<user__username>[\w-]+)/edit/$', ProfileUpdateAPIView.as_view(), name='profile_update'),
 
 ]

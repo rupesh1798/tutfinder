@@ -104,9 +104,13 @@ class ProfileUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsOwner]
-    lookup_field = 'username'
+    lookup_field = 'user__username'
     #lookup_url_kwrg = 'user'
 
+    def put(self, request, *args, **kwargs):
+
+        #serializer.save(user=self.request.user)
+        return self.update(request, *args, **kwargs)
 # class ProfileDeleteAPIView(DestroyAPIView):
 #     queryset = Profile.objects.all()
 #     serializer_class = ProfileSerializer

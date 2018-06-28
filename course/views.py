@@ -74,6 +74,17 @@ class CourseTechListAPIView(ListAPIView):
         tech_slug = self.kwargs['tech_slug']
         return Course.objects.filter(tech__slug = tech_slug)
 
+
+class CourseUserListAPIView(ListAPIView):
+    serializer_class = CourseListSerializer
+    # permission_classes = [AllowAny]
+    filter_backends = [SearchFilter, OrderingFilter]  # ordering=title in url (-title gives opposite)
+    search_fields = ['title', 'content', 'user__first_name']
+    # pagination_class = PostPageNumberPagination
+    def get_queryset(self, *args, **kwargs):
+        user = self.kwargs['user']
+        return Course.objects.filter(submitter__username = user)
+
 class CourseDetailAPIView(RetrieveAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseDetailSerializer
