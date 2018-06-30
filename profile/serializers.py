@@ -177,4 +177,36 @@ class ProfileSerializer(ModelSerializer):
         instance.linkedin_url = validated_data.get('linkedin_url', instance.linkedin_url)
         instance.website_url = validated_data.get('website_url', instance.website_url)
 
+        instance.save()
+
         return instance
+    '''def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        # Unless the application properly enforces that this field is
+        # always set, the follow could raise a `DoesNotExist`, which
+        # would need to be handled.
+        user = instance.user
+
+        #instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+
+        user.username = user_data.get(
+            'username',
+            user.username
+        )
+        user.email = user_data.get(
+            'email',
+            user.email
+        )
+        user.first_name = user_data.get(
+            'first_name',
+            user.first_name
+        )
+        user.last_name = user_data.get(
+            'last_name',
+            user.last_name
+        )
+        user.save()
+
+        return instance'''
