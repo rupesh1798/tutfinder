@@ -184,7 +184,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=200),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -217,7 +217,21 @@ curl \
   -H "Content-Type: application/json" \
   -d '{"refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImp0aSI6IjI3ODk2NTU2MGRkODQ5YmVhNGQzNjE1ZmM1ZTI1NDg3IiwiZXhwIjoxNTI5MTc2Mjc1LCJ1c2VyX2lkIjoxfQ.ueOuBdUxvwQd5tEKw1uxfVaxOGWZqrGMIsEM1uPoGS8"}' \
   http://localhost:5000/api/auth/token/refresh/
-curl -X GET -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MywiZXhwIjoxNTI5OTUyMzA2LCJqdGkiOiJhYWEyOTYyNjE1NTE0Y2NmYTg1NGI3Y2E1NTU0NzE1YSJ9.PaHUhtSgHbLqBTt08oQBd2eMczTjYwRKRjparTDsjHc" -H "Content-Type: application/json" -d '{}' 'http://127.0.0.1:8000/api/users/detail/'
-curl -X PUT -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzAxNzkxNjIsInRva2VuX3R5cGUiOiJhY2Nlc3MiLCJqdGkiOiIzNzA0NWI1YTZlNDk0OTQ3Yjg5MTVjNTc4ZWNmNWJiYSIsInVzZXJfaWQiOjN9.s6FpDEF3_6TkRF2pSe5esgM1HgT--s7RKBaNSSDF3Is" -H "Content-Type: application/json" -d '{"twitter_url":"http://www.abcd.com/api/"}' 'http://127.0.0.1:8000/api/users/profile/admin1/edit/'
+curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzNDg0NjIzMTk1OGE0OWUxODc2NWYzNDhiZGFkMWEyMSIsInRva2VuX3R5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjozLCJleHAiOjE1MzAzNDcxNTV9.w9n1J9XvXK41jnE-zbpEDFiei6bx0dI23T2loucYxlk" -H "Content-Type: application/json" -d '{}' 'http://127.0.0.1:8000/api/users/detail/'
+curl -X PUT -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MywiZXhwIjoxNTMwMzU5MjE1LCJqdGkiOiI0MGJiYjk3ZTI1MzA0ODhhODdkZGU3MzEyMDBhMTM0MCJ9.g9ddeJ6kiyJuSMCBMY06cZ_udlsskOeHu4pWcmBXUvs" -H "Content-Type: application/json" -d '{
+    "user": {
+        "username": "admin1",
+        "email": "admin1@example.com",
+        "first_name": "admin",
+        "last_name": "weac"
+    },
+    "bio": "",
+    "birth_date": null,
+    "image": "https://static.productionready.io/images/smiley-cyrus.jpg",
+    "fb_url": "http://www.abc.com",
+    "twitter_url": "http://www.abcd.com/api/",
+    "linkedin_url": "http://www.abcd.com/api/abc",
+    "website_url": ""
+}' 'http://127.0.0.1:8000/api/users/profile/admin1/edit/'
 
 '''

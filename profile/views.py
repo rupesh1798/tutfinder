@@ -109,7 +109,7 @@ class ProfileUpdateAPIView(RetrieveUpdateAPIView):
 
     def put(self, request, *args, **kwargs):
 
-        #serializer.save(user=self.request.user)
+        #self.serializer_class.save(user=self.request.user)
         return self.update(request, *args, **kwargs)
 # class ProfileDeleteAPIView(DestroyAPIView):
 #     queryset = Profile.objects.all()

@@ -2,6 +2,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 from profile.models import Profile
+from django.contrib.auth.validators import UnicodeUsernameValidator
+
 from rest_framework.serializers import (
     CharField,
     EmailField,
@@ -13,7 +15,6 @@ from rest_framework.serializers import (
 
 User = get_user_model()
 
-
 class UserDetailSerializer(ModelSerializer):
     class Meta:
         model = User
@@ -23,6 +24,11 @@ class UserDetailSerializer(ModelSerializer):
             'first_name',
             'last_name',
         ]
+        extra_kwargs = {
+            'username': {
+                'validators': [UnicodeUsernameValidator()],
+            }
+        }
 
 
 class UserCreateSerializer(ModelSerializer):
@@ -116,7 +122,7 @@ class UserLoginSerializer(ModelSerializer):
 
 
 class ProfileSerializer(ModelSerializer):
-    user = UserDetailSerializer(read_only=True)
+    user = UserDetailSerializer()
     image = SerializerMethodField()
 
     class Meta:
@@ -138,3 +144,37 @@ class ProfileSerializer(ModelSerializer):
         if obj.image:
             return obj.image.url
         return 'https://static.productionready.io/images/smiley-cyrus.jpg'
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        profile = Profile.objects.create(**validated_data)
+        User.objects.create(profile=profile, **user_data)
+        return profile
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        username = user_data.pop('username')
+        user = get_user_model().objects.get_or_create(username=username)[0]
+        user.email = user_data.get(
+            'email',
+            user.email
+        )
+        user.first_name = user_data.get(
+            'first_name',
+            user.first_name
+        )
+        user.last_name = user_data.get(
+            'last_name',
+            user.last_name
+        )
+
+        instance.user = user
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.birth_date = validated_data.get('birth_date', instance.birth_date)
+        instance.image = validated_data.get('image', instance.image)
+        instance.fb_url = validated_data.get('fb_url', instance.fb_url)
+        instance.twitter_url = validated_data.get('twitter_url', instance.twitter_url)
+        instance.linkedin_url = validated_data.get('linkedin_url', instance.linkedin_url)
+        instance.website_url = validated_data.get('website_url', instance.website_url)
+
+        return instance
