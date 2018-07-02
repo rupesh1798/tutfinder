@@ -3,11 +3,13 @@ from django.db.models import Q
 from django.contrib.auth import get_user_model
 from profile.models import Profile
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.contrib.auth.password_validation import validate_password
 
 from rest_framework.serializers import (
     CharField,
     EmailField,
     HyperlinkedIdentityField,
+    Serializer,
     ModelSerializer,
     SerializerMethodField,
     ValidationError,
@@ -121,6 +123,17 @@ class UserLoginSerializer(ModelSerializer):
         return data
 
 
+
+# Serializer for password change endpoint.
+class ChangePasswordSerializer(Serializer):
+    old_password = CharField(required=True)
+    new_password = CharField(required=True)
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
+
+
 class ProfileSerializer(ModelSerializer):
     user = UserDetailSerializer()
     image = SerializerMethodField()
@@ -167,7 +180,7 @@ class ProfileSerializer(ModelSerializer):
             'last_name',
             user.last_name
         )
-
+        user.save()
         instance.user = user
         instance.bio = validated_data.get('bio', instance.bio)
         instance.birth_date = validated_data.get('birth_date', instance.birth_date)
