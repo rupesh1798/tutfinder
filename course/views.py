@@ -1,10 +1,11 @@
 #from rest_framework import status
 from django.db.models import Q
 #from django.contrib.auth.models import User
-#from django.shortcuts import render
-#from rest_framework.response import Response
+from django.shortcuts import render, get_object_or_404
+from rest_framework.response import Response
 
 from rest_framework.generics import (
+    GenericAPIView,
     ListAPIView,
     RetrieveAPIView,
     UpdateAPIView,
@@ -62,6 +63,13 @@ class CourseListAPIView(ListAPIView):
                 Q(user__last_name__icontains=query)|
                 Q(tech__title__icontains=query)
                 ).distinct()
+        user = self.request.user
+        if user.is_authenticated():
+            for obj in queryset_list:
+                if user in obj.upvotes.all():
+                    obj.upvote_user = True
+                else:
+                    obj.upvote_user = False
         return queryset_list
 
 class CourseTechListAPIView(ListAPIView):
@@ -113,3 +121,28 @@ class SubmitCourseCreateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class CourseUpvoteAPIToggle(GenericAPIView):
+    #authentication_classes = (authentication.SessionAuthentication,)
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, slug=None, format=None):
+        # slug = self.kwargs.get("slug")
+        obj = get_object_or_404(Course, slug=slug)
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        updated = False
+        voted = False
+        if user.is_authenticated():
+            if user in obj.upvotes.all():
+                voted = False
+                obj.upvotes.remove(user)
+            else:
+                voted = True
+                obj.upvotes.add(user)
+            updated = True
+        data = {
+            "updated": updated,
+            "voted": voted,
+        }
+        return Response(data)

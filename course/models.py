@@ -1,11 +1,11 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from technology.models import Technology
 from django.db.models.signals import pre_save
 from django.contrib.auth.models import Permission, User
 from django.template.defaultfilters import slugify
 from ckeditor.fields import RichTextField #does not contain upload option for us in Images
 from ckeditor_uploader.fields import  RichTextUploadingField #for adding upload from our own server in CKEDITOR
-
 
 def course_logo(instance, filename):
     return '/'.join(['Images/course', instance.title])
@@ -33,7 +33,7 @@ class Course(models.Model):
     detail = RichTextUploadingField()
     logo = models.ImageField(upload_to=course_logo, blank=True)
     logo_url = models.URLField(default='', blank=True)
-    upvotes = models.IntegerField(blank=True, null=True)
+    upvotes = models.ManyToManyField(User, blank=True, related_name='course_upvotes')
     free = models.BooleanField(default=True, blank=False)
     LEVEL = (('BEGINNER', 'Beginner'), ('INTERMEDIATE', 'Intermediate'),
              ('ADVANCED', 'Advanced'))
@@ -55,6 +55,8 @@ class Course(models.Model):
     def __str__(self):
         return (self.title + str(self.tech))
 
+    def get_absolute_url(self):
+        return reverse("course:course_detail", kwargs={"slug": self.slug})
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(self.title)
     #     super(Course, self).save(*args, **kwargs)

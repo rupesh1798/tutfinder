@@ -48,6 +48,8 @@ class CourseListSerializer(ModelSerializer):
     submitter = SerializerMethodField()
     tutor = SerializerMethodField()
     image = SerializerMethodField()
+    upvotes = SerializerMethodField()
+    #upvote_user = SerializerMethodField()
     class Meta:
         model = Course
         fields = [
@@ -63,6 +65,7 @@ class CourseListSerializer(ModelSerializer):
             'logo',
             'logo_url',
             'upvotes',
+            #'upvote_user',
             'free',
             'level',
             'medium',
@@ -79,12 +82,17 @@ class CourseListSerializer(ModelSerializer):
         except:
             image = None
         return image
+    def get_upvotes(self, obj):
+        return int(obj.upvotes.count())
+    #def get_upvote_user(self, obj):
+     #   return False
 
 class CourseDetailSerializer(ModelSerializer):
     tech = SerializerMethodField()
     submitter = SerializerMethodField()
     tutor = SerializerMethodField()
     image = SerializerMethodField()
+    upvotes = SerializerMethodField()
     class Meta:
         model = Course
         fields = [
@@ -116,7 +124,9 @@ class CourseDetailSerializer(ModelSerializer):
         except:
             image = None
         return image
-
+    def get_upvotes(self, obj):
+        return int(obj.upvotes.count())
+    
 class CourseDeleteSerializer(ModelSerializer):
     tech = SerializerMethodField()
     submitter = SerializerMethodField()

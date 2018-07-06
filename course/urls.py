@@ -10,6 +10,7 @@ from .views import (
     CourseDeleteAPIView,
     CourseUpdateAPIView,
     SubmitCourseCreateAPIView,
+    CourseUpvoteAPIToggle,
 )
 
 urlpatterns = [
@@ -21,7 +22,7 @@ urlpatterns = [
     url(r'^course/(?P<slug>[\w-]+)/edit/$', CourseUpdateAPIView.as_view(), name='course_update'),
     url(r'^course/(?P<slug>[\w-]+)/delete/$', CourseDeleteAPIView.as_view(), name='course_delete'),
     url(r'^course/submit/$', SubmitCourseCreateAPIView.as_view(), name='course_submit'),
-
+    url(r'^course/(?P<slug>[\w-]+)/upvote/$', CourseUpvoteAPIToggle.as_view(), name='Upvote-api-toggle'),
     # url(r'^posts/$', "<appname>.views.<function_name>"),
 
 ]
