@@ -173,4 +173,3 @@ class ProfileUpdateAPIView(RetrieveUpdateAPIView):
 #     permission_classes = [IsOwner]
 #     lookup_field = 'slug'
 #     # lookup_url_kwrg = 'slug'
-
