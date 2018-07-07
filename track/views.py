@@ -78,3 +78,12 @@ class TrackUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = 'slug'
     permission_classes = [IsAuthenticatedOrReadOnly]
     # lookup_url_kwrg = 'slug'
+
+class TrackFeaturedListAPIView(ListAPIView):
+    # queryset = Post.objects.all()
+    serializer_class = TrackListSerializer
+    filter_backends = [SearchFilter, OrderingFilter] #ordering=title in url (-title gives opposite)
+    search_fields = ['title', 'detail']
+    # pagination_class = PostPageNumberPagination
+    def get_queryset(self, *args, **kwargs):
+        return Track.objects.filter(featured=True)

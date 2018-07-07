@@ -28,6 +28,7 @@ class CourseCreateUpdateSerializer(ModelSerializer):
             'free',
             'level',
             'medium',
+            'featured',
         ]
     #def get_tech(self, obj):
     #    return str(obj.tech.title)
@@ -69,6 +70,7 @@ class CourseListSerializer(ModelSerializer):
             'free',
             'level',
             'medium',
+            'featured',
         ]
     def get_tech(self, obj):
         return str(obj.tech.title)
@@ -111,6 +113,7 @@ class CourseDetailSerializer(ModelSerializer):
             'free',
             'level',
             'medium',
+            'featured',
         ]
     def get_tech(self, obj):
         return str(obj.tech.title)
@@ -126,7 +129,7 @@ class CourseDetailSerializer(ModelSerializer):
         return image
     def get_upvotes(self, obj):
         return int(obj.upvotes.count())
-    
+
 class CourseDeleteSerializer(ModelSerializer):
     tech = SerializerMethodField()
     submitter = SerializerMethodField()

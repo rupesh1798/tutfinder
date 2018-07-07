@@ -40,6 +40,7 @@ class Course(models.Model):
     level = models.CharField(choices=LEVEL, default='Select', max_length=20, blank=False)
     MEDIUM = (('VIDEO', 'Video'), ('TEXT', 'Text'))
     medium = models.CharField(choices=MEDIUM, default='Select', max_length=20, blank=False)
+    featured = models.BooleanField(default=False, blank=False)
     # self paced = bool
     # langauge =
     # active = bool

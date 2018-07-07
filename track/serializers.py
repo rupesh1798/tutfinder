@@ -17,6 +17,7 @@ class TrackCreateUpdateSerializer(ModelSerializer):
             'time',
             'level',
             'course_count',
+            'featured',
         ]
 
 class TrackListSerializer(ModelSerializer):
@@ -33,6 +34,7 @@ class TrackListSerializer(ModelSerializer):
             'time',
             'level',
             'course_count',
+            'featured',
         ]
 
 class TrackDetailSerializer(ModelSerializer):
@@ -48,6 +50,7 @@ class TrackDetailSerializer(ModelSerializer):
             'time',
             'level',
             'course_count',
+            'featured',
         ]
 
 class TrackDeleteSerializer(ModelSerializer):

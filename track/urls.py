@@ -7,6 +7,7 @@ from .views import (
     TrackCreateAPIView,
     TrackUpdateAPIView,
     TrackDeleteAPIView,
+    TrackFeaturedListAPIView,
 )
 
 
@@ -17,6 +18,7 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)/edit/$', TrackUpdateAPIView.as_view(), name='track_update'),
     url(r'^(?P<slug>[\w-]+)/delete/$', TrackDeleteAPIView.as_view(), name='track_delete'),
     # url(r'^posts/$', "<appname>.views.<function_name>"),
+    url(r'^featured/$', TrackFeaturedListAPIView.as_view(), name='track_featured_list'),
 
 ]
 

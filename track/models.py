@@ -16,6 +16,7 @@ class Track(models.Model):
     LEVEL = (('BEGINNER', 'Beginner'), ('INTERMEDIATE', 'Intermediate'),
              ('ADVANCED', 'Advanced'))
     level = models.CharField(choices=LEVEL, default='Select', max_length=20, blank=False)
+    featured = models.BooleanField(default=False, blank=False)
 
     def __unicode__(self):
         return self.title
