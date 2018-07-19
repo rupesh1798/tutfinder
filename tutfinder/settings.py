@@ -90,13 +90,31 @@ WSGI_APPLICATION = 'tutfinder.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
 
 
 # Password validation
@@ -136,6 +154,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
+
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_my_proj"),
@@ -186,12 +206,17 @@ REST_FRAMEWORK = {
         #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     )
 }
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.sendgrid.net'
+#EMAIL_HOST_USER = 'yourusername@youremail.com'
+#EMAIL_HOST_PASSWORD = 'your password'
+#EMAIL_PORT = 465
+#EMAIL_USE_TLS = True
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS=True
-# EMAIL_USE_SSL = False
+EMAIL_USE_SSL = False
 EMAIL_HOST= 'smtp.gmail.com'
-EMAIL_HOST_USER='<your email>'
-EMAIL_HOST_PASSWORD='<your password>'
+EMAIL_HOST_USER='gonoobieteam@gmail.com'
+EMAIL_HOST_PASSWORD='teamadmin123'
 EMAIL_PORT=587
 
 DJOSER = {
@@ -264,36 +289,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=30),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }"""
-
-
-'''
-curl -X POST -d "username=cfe&password=learncode" http://127.0.0.1:8000/api/auth/token/
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNmZSIsInVzZXJfaWQiOjEsImVtYWlsIjoiIiwiZXhwIjoxNDYxOTY1ODI5fQ.OTX7CZFZqxhaUnU9Da13Ebh9FY_bHMeCF1ypr9hXjWw
-curl -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNmZSIsInVzZXJfaWQiOjEsImVtYWlsIjoiIiwiZXhwIjoxNDYxOTY1ODI5fQ.OTX7CZFZqxhaUnU9Da13Ebh9FY_bHMeCF1ypr9hXjWw
-" http://127.0.0.1:8000/api/comments/
-curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNmZSIsInVzZXJfaWQiOjEsImVtYWlsIjoiIiwiZXhwIjoxNDYxOTY2MTc4fQ._i5wEqJ_OO8wNiVVNAWNPGjGaO7OzChY0UzONgw06D0" -H "Content-Type: application/json" -d '{"content":"some reply to another try"}' 'http://127.0.0.1:8000/api/comments/create/?slug=new-title&type=post&parent_id=13'
-curl http://127.0.0.1:8000/api/comments/
-curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5MzkyMzUyOWNkNjM0ODlhOWU2MjY4MjM4MmU3MzNlYSIsInRva2VuX3R5cGUiOiJhY2Nlc3MiLCJleHAiOjE1MjkwOTMzMDcsInVzZXJfaWQiOjF9.WIImQM8XKS9klkiEOdFAtO_50vI5tbYNbg3ERFlgp6c" -H "Content-Type: application/json" -d '{"title":"javascript"}' 'http://127.0.0.1:8000/api/technology/create/'
-curl \
-  -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImp0aSI6IjI3ODk2NTU2MGRkODQ5YmVhNGQzNjE1ZmM1ZTI1NDg3IiwiZXhwIjoxNTI5MTc2Mjc1LCJ1c2VyX2lkIjoxfQ.ueOuBdUxvwQd5tEKw1uxfVaxOGWZqrGMIsEM1uPoGS8"}' \
-  http://localhost:5000/api/auth/token/refresh/
-curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzNDg0NjIzMTk1OGE0OWUxODc2NWYzNDhiZGFkMWEyMSIsInRva2VuX3R5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjozLCJleHAiOjE1MzAzNDcxNTV9.w9n1J9XvXK41jnE-zbpEDFiei6bx0dI23T2loucYxlk" -H "Content-Type: application/json" -d '{}' 'http://127.0.0.1:8000/api/users/detail/'
-curl -X PUT -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MywiZXhwIjoxNTMwMzU5MjE1LCJqdGkiOiI0MGJiYjk3ZTI1MzA0ODhhODdkZGU3MzEyMDBhMTM0MCJ9.g9ddeJ6kiyJuSMCBMY06cZ_udlsskOeHu4pWcmBXUvs" -H "Content-Type: application/json" -d '{
-    "user": {
-        "username": "admin1",
-        "email": "admin1@example.com",
-        "first_name": "admin",
-        "last_name": "weac"
-    },
-    "bio": "",
-    "birth_date": null,
-    "image": "https://static.productionready.io/images/smiley-cyrus.jpg",
-    "fb_url": "http://www.abc.com",
-    "twitter_url": "http://www.abcd.com/api/",
-    "linkedin_url": "http://www.abcd.com/api/abc",
-    "website_url": ""
-}' 'http://127.0.0.1:8000/api/users/profile/admin1/edit/'
-
-'''
