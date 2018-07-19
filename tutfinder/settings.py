@@ -26,7 +26,7 @@ SECRET_KEY = 'e&9!tyxvdtil^y)rl95=ixo9j5kfl%gv49v5k64+teok2hcqh9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://tutfinder-api.ap-south-1.elasticbeanstalk.com/']
+ALLOWED_HOSTS = ['tutfinder-api.ap-south-1.elasticbeanstalk.com', 'www.tutfinder-api.ap-south-1.elasticbeanstalk.com']
 
 
 # Application definition
