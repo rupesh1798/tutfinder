@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'e&9!tyxvdtil^y)rl95=ixo9j5kfl%gv49v5k64+teok2hcqh9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'tutfinder-api.ap-south-1.elasticbeanstalk.com', 'www.tutfinder-api.ap-south-1.elasticbeanstalk.com']
 
@@ -153,7 +153,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/www/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
 
 
@@ -217,18 +217,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_HOST= 'smtp.sendgrid.net'
 #EMAIL_HOST_USER='apikey'
 #EMAIL_HOST_PASSWORD='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'
-#EMAIL_PORT=587
-#EMAIL_HOST = 'smtp.sendgrid.net''smtp.gmail.com'
-#EMAIL_HOST_USER = 'yourusername@youremail.com''gonoobieteam@gmail.com'
-#EMAIL_HOST_PASSWORD = 'your password''teamadmin123'
-#EMAIL_PORT = 465
-#EMAIL_USE_TLS = True
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_USE_TLS=True
-#EMAIL_USE_SSL = False
-#EMAIL_HOST= 'email-smtp.us-west-2.amazonaws.com'
-#EMAIL_HOST_USER='AKIAIABMXBRDUSHATXOA'
-#EMAIL_HOST_PASSWORD='AgPIqcTPkG50VhLwbe90E6RT/jYsgfCxXrDFNAHuGpfu'
 #EMAIL_PORT=587
 
 DJOSER = {
