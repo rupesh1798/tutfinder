@@ -67,6 +67,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+
 ROOT_URLCONF = 'tutfinder.urls'
 
 TEMPLATES = [
