@@ -1,11 +1,13 @@
 {% load i18n %}
 
 {% block subject %}
-{% blocktrans %}Account activation on {{ site_name }}{% endblocktrans %}
+{% blocktrans %}Account activation on Go Noobie{% endblocktrans %}
 {% endblock subject %}
 
 {% block text_body %}
-{% blocktrans %}You're receiving this email because you need to finish activation process on {{ site_name }}.{% endblocktrans %}
+{% blocktrans %}
+Dear User,
+You're receiving this email because you need to finish activation process on Go Noobie.{% endblocktrans %}
 
 {% trans "Please go to the following page to activate account:" %}
 {{ protocol }}://{{ domain }}/{{ url }}
@@ -17,13 +19,13 @@
 
 {% block html_body %}
 {% blocktrans %}
-<p>You're receiving this email because you need to finish activation process on {{ site_name }}.</p>{% endblocktrans %}
+<p>Dear User,<br>You're receiving this email because you need to finish activation process on Go Noobie.</p>{% endblocktrans %}
 
 <p>{% trans "Please go to the following page to activate account:" %}</p>
-<p><a href="{{ protocol }}://{{ domain }}/{{ url }}">{{ protocol }}://{{ domain }}/{{ url }}</a></p>
+<p><a href="{{ protocol }}://gonoobie.com/{{ url }}">{{ protocol }}://gonoobie.com/{{ url }}</a></p>
 
 <p>{% trans "Thanks for using our site!" %}</p>
 
-<p>{% blocktrans %}The {{ site_name }} team{% endblocktrans %}</p>
+<p>{% blocktrans %}The Go Noobie team{% endblocktrans %}</p>
 
 {% endblock html_body %}

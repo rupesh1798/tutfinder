@@ -42,7 +42,6 @@ class TrackDetailSerializer(ModelSerializer):
         model = Track
         fields = [
             'id',
-            'url',
             'title',
             'slug',
             'detail',

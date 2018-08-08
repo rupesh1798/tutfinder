@@ -26,7 +26,7 @@ SECRET_KEY = 'e&9!tyxvdtil^y)rl95=ixo9j5kfl%gv49v5k64+teok2hcqh9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'tutfinder-api.ap-south-1.elasticbeanstalk.com', 'www.tutfinder-api.ap-south-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'tutfinder-api.ap-south-1.elasticbeanstalk.com', 'www.tutfinder-api.ap-south-1.elasticbeanstalk.com','www.gonoobie.com','gonoobie.com']
 
 
 # Application definition
@@ -227,8 +227,8 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE' : True,
     #'LOGOUT_ON_PASSWORD_CHANGE': True, https://tag1consulting.com/blog/building-api-django-20-part-i
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'login/password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'profile/activate/{uid}/{token}',
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://test.localhost/']
 }
 
@@ -257,12 +257,12 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': timedelta(days=30),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 
     'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_AUTH_COOKIE': None,
