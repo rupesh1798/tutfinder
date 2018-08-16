@@ -8,6 +8,7 @@ track_detail_url = HyperlinkedIdentityField(
 )
 
 class TrackCreateUpdateSerializer(ModelSerializer):
+    mentor = SerializerMethodField()
     class Meta:
         model = Track
         fields = [
@@ -19,9 +20,12 @@ class TrackCreateUpdateSerializer(ModelSerializer):
             'course_count',
             'featured',
         ]
+    def get_mentor(self, obj):
+        return str(obj.mentor.username)
 
 class TrackListSerializer(ModelSerializer):
     url = track_detail_url
+    mentor = SerializerMethodField()
     class Meta:
         model = Track
         fields = [
@@ -36,8 +40,11 @@ class TrackListSerializer(ModelSerializer):
             'course_count',
             'featured',
         ]
+    def get_mentor(self, obj):
+        return str(obj.mentor.username)
 
 class TrackDetailSerializer(ModelSerializer):
+    mentor = SerializerMethodField()
     class Meta:
         model = Track
         fields = [
@@ -52,7 +59,11 @@ class TrackDetailSerializer(ModelSerializer):
             'featured',
         ]
 
+    def get_mentor(self, obj):
+        return str(obj.mentor.username)
+
 class TrackDeleteSerializer(ModelSerializer):
+    mentor = SerializerMethodField()
     class Meta:
         model = Track
         fields = [
@@ -66,3 +77,5 @@ class TrackDeleteSerializer(ModelSerializer):
             'level',
             'course_count',
         ]
+    def get_mentor(self, obj):
+        return str(obj.mentor.username)
